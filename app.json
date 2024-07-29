@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "rn-moviedb",
+    "name": "Movie DB",
     "slug": "rn-moviedb",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "rnmoviedb",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FEF9B0"
     },
     "ios": {
       "supportsTablet": true
