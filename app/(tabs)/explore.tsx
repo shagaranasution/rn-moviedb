@@ -1,18 +1,102 @@
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Text,
+  View,
+  FlatList,
+  RefreshControl,
+  TouchableOpacity,
+  Image,
+  useWindowDimensions,
+} from 'react-native';
 import React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
+import useFetchDiscoverMovies from '@/hooks/useFetchDiscoverMovies';
+import { Movie } from '@/types/movie';
+import { useRouter } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 
 export default function ExploreScreen() {
+  const { top } = useSafeAreaInsets();
+  const {
+    data: discoveries,
+    loading,
+    error,
+    refetch,
+  } = useFetchDiscoverMovies();
+
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="#1f2937" />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text>Error: {error}</Text>
+      </View>
+    );
+  }
+
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>ExploreScreen</Text>
-    </SafeAreaView>
+    // <SafeAreaView className="flex-1">
+    <View className="flex-1">
+      <StatusBar style="dark" />
+      {discoveries && (
+        <FlatList
+          data={discoveries}
+          renderItem={({ item: movie }) => <ExploreItem movie={movie} />}
+          horizontal={false}
+          numColumns={2}
+          columnWrapperStyle={{ gap: 8 }}
+          keyExtractor={(item) => item.title}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={loading} onRefresh={refetch} />
+          }
+          scrollEventThrottle={16}
+          ItemSeparatorComponent={() => <View className="h-2" />}
+          contentContainerStyle={{ paddingHorizontal: 16, paddingTop: top }}
+        />
+      )}
+    </View>
+    // </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'green',
-  },
-});
+function ExploreItem({ movie }: { movie: Movie }) {
+  const { push } = useRouter();
+  const { width } = useWindowDimensions();
+  const imageWidth = (width - 32 - 8) / 2;
+  const imageHeight = (imageWidth * 4) / 3;
+
+  const handlePress = () => {
+    push({
+      pathname: '/movie/[id]',
+      params: { id: movie.id.toString() },
+    });
+  };
+
+  return (
+    <View className="flex-1 bg-gray-800 rounded-md">
+      <TouchableOpacity
+        activeOpacity={0.7}
+        className="frlex-1"
+        onPress={handlePress}>
+        <Image
+          className={`w-[100%] h-[${imageHeight.toFixed()}px] bg-gray-800 rounded-md`}
+          resizeMode="cover"
+          source={{
+            uri: `https://image.tmdb.org/t/p/w500${movie.poster_path ?? ''}`,
+          }}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+}
