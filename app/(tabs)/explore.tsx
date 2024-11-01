@@ -8,7 +8,7 @@ import {
   Image,
   useWindowDimensions,
 } from 'react-native';
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   SafeAreaView,
   useSafeAreaInsets,
@@ -72,9 +72,13 @@ export default function ExploreScreen() {
 
 function ExploreItem({ movie }: { movie: Movie }) {
   const { push } = useRouter();
-  const { width } = useWindowDimensions();
-  const imageWidth = (width - 32 - 8) / 2;
-  const imageHeight = (imageWidth * 4) / 3;
+  const { width: scrrenWidth } = useWindowDimensions();
+  const imageWidth = useMemo(() => {
+    return Math.floor((scrrenWidth - 32 - 8) / 2);
+  }, [scrrenWidth]);
+  const imageHeight = useMemo(() => {
+    return Math.floor((imageWidth * 4) / 3).toFixed();
+  }, [imageWidth]);
 
   const handlePress = () => {
     push({
@@ -90,7 +94,7 @@ function ExploreItem({ movie }: { movie: Movie }) {
         className="frlex-1"
         onPress={handlePress}>
         <Image
-          className={`w-[100%] h-[${imageHeight.toFixed()}px] bg-gray-800 rounded-md`}
+          className={`w-[100%] h-[${imageHeight}px] bg-gray-800 rounded-md`}
           resizeMode="cover"
           source={{
             uri: `https://image.tmdb.org/t/p/w500${movie.poster_path ?? ''}`,
