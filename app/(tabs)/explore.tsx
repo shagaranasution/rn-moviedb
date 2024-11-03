@@ -72,13 +72,9 @@ export default function ExploreScreen() {
 
 function ExploreItem({ movie }: { movie: Movie }) {
   const { push } = useRouter();
-  const { width: scrrenWidth } = useWindowDimensions();
-  const imageWidth = useMemo(() => {
-    return Math.floor((scrrenWidth - 32 - 8) / 2);
-  }, [scrrenWidth]);
-  const imageHeight = useMemo(() => {
-    return Math.floor((imageWidth * 4) / 3).toFixed();
-  }, [imageWidth]);
+  const { width: screenWidth } = useWindowDimensions();
+  const imageWidth = Math.floor((screenWidth - 32 - 8) / 2);
+  const imageHeight = Math.floor((imageWidth * 4) / 3);
 
   const handlePress = () => {
     push({
@@ -88,13 +84,15 @@ function ExploreItem({ movie }: { movie: Movie }) {
   };
 
   return (
-    <View className="flex-1 bg-gray-800 rounded-md">
+    <View
+      className={`flex-1 w-[100%]rounded-md`}
+      style={{ height: imageHeight }}>
       <TouchableOpacity
         activeOpacity={0.7}
         className="frlex-1"
         onPress={handlePress}>
         <Image
-          className={`w-[100%] h-[${imageHeight}px] bg-gray-800 rounded-md`}
+          className={`w-[100%] h-[100%] bg-gray-800 rounded-md`}
           resizeMode="cover"
           source={{
             uri: `https://image.tmdb.org/t/p/w500${movie.poster_path ?? ''}`,
