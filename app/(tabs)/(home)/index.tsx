@@ -27,6 +27,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { StatusBar } from 'expo-status-bar';
 import { MaterialIcons } from '@expo/vector-icons';
+import NavigationHeader from '@/components/navigation/NavigationHeader';
 
 export default function HomeScreen() {
   const { data, loading, error, refetch } = useFetchHomeScreenMovies();
@@ -36,16 +37,18 @@ export default function HomeScreen() {
     duration: 500,
     easing: Easing.bezier(0.5, 0.01, 0, 1),
   };
-  const headerTopPosition = useSharedValue(-100);
+  const [contentOffsetY, setContentOffsetY] = useState(0);
+  const headerTopPosition = useSharedValue(-120);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
     animatedHeaderTopPostion(offsetY);
+    // setContentOffsetY(offsetY);
   };
 
   const animatedHeaderTopPostion = (contentOffsetY: number) => {
     if (contentOffsetY < 240) {
-      headerTopPosition.value = withTiming(-100);
+      headerTopPosition.value = withTiming(-120);
     } else {
       headerTopPosition.value = withTiming(0);
     }
@@ -70,17 +73,28 @@ export default function HomeScreen() {
   return (
     <View className="flex-1">
       <StatusBar style="dark" />
-      <Animated.View
-        className={`absolute w-screen h-[96px] z-10`}
+      <NavigationHeader
+        headerTopPosition={headerTopPosition}
+        contentOffsetY={contentOffsetY}>
+        {/* <View
+          className="flex-1 items-center pb-4"
+          style={{ paddingTop: insets.top }}> */}
+        <Text className="flex-1 text-center text-black font-medium text-xl">
+          Netplix
+        </Text>
+        {/* </View> */}
+      </NavigationHeader>
+      {/* <Animated.View
+        className={`absolute w-screen z-10`}
         style={{ top: headerTopPosition }}>
-        <BlurView tint="systemMaterialLight" className={`w-[100%] h-[100%]`}>
+        <BlurView tint="systemMaterialLight" className={`w-[100%]`}>
           <View
-            className="flex-1 items-center"
+            className="flex-1 items-center pb-4"
             style={{ paddingTop: insets.top }}>
             <Text className="text-black font-medium text-xl">Netplix</Text>
           </View>
         </BlurView>
-      </Animated.View>
+      </Animated.View> */}
       {data && (
         <FlatList
           data={data}

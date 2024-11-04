@@ -12,7 +12,7 @@ type TabIconProps = {
 const TabIcon = ({ icon, color, name }: TabIconProps) => {
   return (
     <View className="items-center  justify-center">
-      <MaterialIcons name={icon} size={28} color={color} />
+      <MaterialIcons name={icon} size={24} color={color} />
       <Text className="text-xs" style={{ color: color }}>
         {name}
       </Text>
@@ -42,7 +42,7 @@ export default function TabsLayout() {
         options={{
           title: 'Explore',
           tabBarIcon: ({ color }) => (
-            <TabIcon icon="search" color={color} name="Explore" />
+            <TabIcon icon="explore" color={color} name="Explore" />
           ),
           headerShown: false,
         }}
