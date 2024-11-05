@@ -1,6 +1,6 @@
 import { BlurView } from 'expo-blur';
 import { useEffect } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import Animated, {
   useSharedValue,
   SharedValue,
@@ -10,9 +10,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type Props = {
-  // basedHeaderTopPosition: number;
-  headerTopPosition: SharedValue<number>;
-  contentOffsetY: number;
+  headerTopPosition?: SharedValue<number>;
   children: React.ReactNode;
 };
 
@@ -22,17 +20,29 @@ export default function NavigationHeader({
 }: Props) {
   const insets = useSafeAreaInsets();
 
+  if (headerTopPosition) {
+    return (
+      <Animated.View
+        className={`absolute w-screen z-10`}
+        style={{ top: headerTopPosition }}>
+        <BaseNavigationHeader>{children}</BaseNavigationHeader>
+      </Animated.View>
+    );
+  }
+
+  return <BaseNavigationHeader>{children}</BaseNavigationHeader>;
+}
+
+function BaseNavigationHeader({ children }: { children: React.ReactNode }) {
+  const insets = useSafeAreaInsets();
+
   return (
-    <Animated.View
-      className={`absolute w-screen z-10`}
-      style={{ top: headerTopPosition }}>
-      <BlurView tint="systemMaterialLight" className={`w-[100%]`}>
-        <View
-          className="flex-row justify-between flex-1 pb-3 px-2"
-          style={{ paddingTop: insets.top }}>
-          {children}
-        </View>
-      </BlurView>
-    </Animated.View>
+    <BlurView tint="systemMaterialLight">
+      <View
+        className="flex-row justify-between pb-3 px-4 items-center gap-2"
+        style={{ paddingTop: insets.top }}>
+        {children}
+      </View>
+    </BlurView>
   );
 }

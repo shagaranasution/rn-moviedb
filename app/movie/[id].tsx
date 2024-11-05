@@ -1,3 +1,5 @@
+import ErrorPage from '@/components/ErrorPage';
+import YoutubeVideo from '@/components/YoutubeVideo';
 import useFetchMovieDetail from '@/hooks/useFetchMovieDetail';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -19,12 +21,11 @@ const { width: screenWidth } = Dimensions.get('window');
 export default function MovieScreen() {
   const { id: movieId } = useLocalSearchParams<{ id?: string }>();
   if (!movieId) {
-    console.log('movieId: ', movieId);
     return;
   }
 
-  const { movie, loading, error, refetch } = useFetchMovieDetail(movieId);
-  const isPresented = router.canGoBack();
+  const { movie, loading, error, refetch, movieYoutubeTrailer } =
+    useFetchMovieDetail(movieId);
   const thumbnailHeight = useMemo(() => {
     return screenWidth * (9 / 16);
   }, [screenWidth]);
@@ -32,10 +33,6 @@ export default function MovieScreen() {
   const handleNavigateBack = () => {
     router.back();
   };
-
-  if (!movie) {
-    return;
-  }
 
   if (loading) {
     return (
@@ -46,11 +43,7 @@ export default function MovieScreen() {
   }
 
   if (error) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <Text>Error: {error}</Text>
-      </View>
-    );
+    return <ErrorPage text={error} onNavigate={handleNavigateBack} />;
   }
 
   return (
@@ -74,26 +67,34 @@ export default function MovieScreen() {
             height: thumbnailHeight,
             position: 'relative',
           }}>
-          <Image
-            source={{
-              uri: `https://image.tmdb.org/t/p/w500${
-                movie.backdrop_path ?? ''
-              }`,
-            }}
-            resizeMode="cover"
-            className="flex-1 m-4 mt-0 mb-8 bg-slate-800 rounded-md"
-          />
-          <LinearGradient
-            colors={['transparent', 'rgba(0,0,0,0.7)']}
-            className="absolute top-0 bottom-8 left-4 right-4 rounded-md">
-            <View className="flex-1 justify-center items-center">
-              <MaterialIcons
-                name="play-circle-outline"
-                size={52}
-                color="white"
-              />
+          {movieYoutubeTrailer ? (
+            <View className="flex-1 m-4 mt-0 mb-8">
+              <YoutubeVideo embedUrl={movieYoutubeTrailer} />
             </View>
-          </LinearGradient>
+          ) : (
+            <>
+              <Image
+                source={{
+                  uri: `https://image.tmdb.org/t/p/w500${
+                    movie?.backdrop_path ?? ''
+                  }`,
+                }}
+                resizeMode="cover"
+                className="flex-1 m-4 mt-0 mb-8 bg-slate-800 rounded-md"
+              />
+              <LinearGradient
+                colors={['transparent', 'rgba(0,0,0,0.7)']}
+                className="absolute top-0 bottom-8 left-4 right-4 rounded-md">
+                <View className="flex-1 justify-center items-center">
+                  <MaterialIcons
+                    name="play-circle-outline"
+                    size={52}
+                    color="white"
+                  />
+                </View>
+              </LinearGradient>
+            </>
+          )}
         </View>
         <View className="mt-[-16px] p-4 pt-0">
           <View className="gap-4">

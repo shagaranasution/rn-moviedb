@@ -1,5 +1,6 @@
 import { NetworkError } from '@/types/errors';
 import { MovieTag, Movie, MoviesResponse } from '@/types/movie';
+import { GetYoutubeSearchResponse } from '@/types/youtubedata';
 
 //'YOUTUBE_DATA_CREDENTIAL = AIzaSyArBxINp3fAz-oRMShVv_ONPucUBfSp5ic';
 //"https://youtube.googleapis.com/youtube/v3"
@@ -7,6 +8,8 @@ import { MovieTag, Movie, MoviesResponse } from '@/types/movie';
 const API_KEY =
   'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOTkyMzg3NDJhMTViYjQxN2MzYjJjYjEyNzgzNzU1OCIsIm5iZiI6MTcyMDg0Nzg4Mi40NzcxMjIsInN1YiI6IjVmMzI1MDMwY2RmMmU2MDAzNzI0NTk0YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oHzG7n9JA54uCceITDhvRbSj5_P1nCoNicuix_qiEhM';
 const BASE_URL = 'https://api.themoviedb.org/3';
+const YOUTUBE_DATA_URL = 'https://youtube.googleapis.com/youtube/v3';
+const YOUTUBE_DATA_CREDENTIAL = 'AIzaSyArBxINp3fAz-oRMShVv_ONPucUBfSp5ic';
 
 const headers = {
   'Content-Type': 'application/json',
@@ -102,6 +105,35 @@ export async function fetchMovieDetail(movieId: string): Promise<Movie> {
     if (!response.ok) {
       throw new NetworkError(
         'Failed to fetch movie',
+        response.status,
+        await response.text()
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    if (error instanceof NetworkError) {
+      console.error(
+        `Error fetching movies: ${error.message}, Status: ${error.status}`
+      );
+      throw error;
+    }
+    throw new Error('An unexpected error occurred.');
+  }
+}
+
+export async function fetchYutubeVideoData(
+  query: string
+): Promise<GetYoutubeSearchResponse> {
+  try {
+    // https://youtube.googleapis.com/youtube/v3/search?q=&key=
+    const response = await fetch(
+      `${YOUTUBE_DATA_URL}/search?key=${YOUTUBE_DATA_CREDENTIAL}&q=${query}`
+    );
+
+    if (!response.ok) {
+      throw new NetworkError(
+        'Failed to fetch youtube data',
         response.status,
         await response.text()
       );

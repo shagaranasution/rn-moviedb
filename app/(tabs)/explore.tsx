@@ -17,7 +17,7 @@ import {
 } from 'react-native-safe-area-context';
 import useFetchDiscoverMovies from '@/hooks/useFetchDiscoverMovies';
 import { Movie } from '@/types/movie';
-import { useRouter } from 'expo-router';
+import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import NavigationHeader from '@/components/navigation/NavigationHeader';
 import { useSharedValue, withTiming } from 'react-native-reanimated';
@@ -60,7 +60,9 @@ export default function ExploreScreen() {
   }, [contentOffsetY]);
 
   const handleSearchPress = () => {
-    console.log('search clicked');
+    router.push({
+      pathname: 'search',
+    });
   };
 
   if (loading) {
@@ -83,22 +85,12 @@ export default function ExploreScreen() {
     // <SafeAreaView className="flex-1">
     <View className="flex-1">
       <StatusBar style="dark" />
-      <NavigationHeader
-        headerTopPosition={headerTopPosition}
-        contentOffsetY={contentOffsetY}>
+      <NavigationHeader headerTopPosition={headerTopPosition}>
         <View className="w-7" />
         <Text className="text-black font-medium text-xl">Explore</Text>
-        <MaterialIcons.Button
-          name="search"
-          size={28}
-          onPress={handleSearchPress}
-          backgroundColor={'transparent'}
-          color={'black'}
-          activeOpacity={1}
-          underlayColor={'transparent'}
-          iconStyle={{ marginRight: 0, marginLeft: 4 }}
-          className="p-0 self-end justify-end items-end text-end m-0"
-        />
+        <TouchableOpacity activeOpacity={0.6} onPress={handleSearchPress}>
+          <MaterialIcons name="search" size={28} />
+        </TouchableOpacity>
       </NavigationHeader>
       {discoveries && (
         <FlatList
@@ -107,7 +99,7 @@ export default function ExploreScreen() {
           horizontal={false}
           numColumns={2}
           columnWrapperStyle={{ gap: 8 }}
-          keyExtractor={(item) => item.title}
+          keyExtractor={(item) => item.id.toString()}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           refreshControl={
@@ -129,13 +121,12 @@ export default function ExploreScreen() {
 }
 
 function ExploreItem({ movie }: { movie: Movie }) {
-  const { push } = useRouter();
   const { width: screenWidth } = useWindowDimensions();
   const imageWidth = Math.floor((screenWidth - 32 - 8) / 2);
   const imageHeight = Math.floor((imageWidth * 4) / 3);
 
   const handlePress = () => {
-    push({
+    router.push({
       pathname: '/movie/[id]',
       params: { id: movie.id.toString() },
     });

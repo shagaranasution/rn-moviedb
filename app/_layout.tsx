@@ -19,6 +19,24 @@ export default function RootLayout() {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="search"
+          options={{
+            headerShown: false,
+          }}
+        />
+        {/* <Stack.Screen
+          name="search/index"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="search/[title]"
+          options={{
+            headerShown: false,
+          }}
+        /> */}
       </Stack>
       <StatusBar style="dark" />
     </View>
