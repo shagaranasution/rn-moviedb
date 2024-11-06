@@ -7,7 +7,6 @@ type Props = {
 };
 
 export default function YoutubeVideo({ embedUrl }: Props) {
-  console.log('embedUrl:', embedUrl);
   return (
     <View className="flex-1 align-middle justify-center">
       <WebView

@@ -4,6 +4,7 @@ import useFetchMovieDetail from '@/hooks/useFetchMovieDetail';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, router, Link } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { useMemo } from 'react';
 import {
   View,
@@ -47,7 +48,7 @@ export default function MovieScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-white dark:bg-slate-900">
       <View className="relative z-10">
         <TouchableOpacity onPress={handleNavigateBack}>
           <View className="absolute m-4 mt-0 top-0 right-0 ">
@@ -80,7 +81,7 @@ export default function MovieScreen() {
                   }`,
                 }}
                 resizeMode="cover"
-                className="flex-1 m-4 mt-0 mb-8 bg-slate-800 rounded-md"
+                className="flex-1 m-4 mt-0 mb-8 bg-slate-500 dark:bg-slate-400 rounded-md"
               />
               <LinearGradient
                 colors={['transparent', 'rgba(0,0,0,0.7)']}
@@ -97,14 +98,15 @@ export default function MovieScreen() {
           )}
         </View>
         <View className="mt-[-16px] p-4 pt-0">
-          <View className="gap-4">
-            <Text className="max-w-[240px] self-center text-center text-3xl font-medium">{`Movie Page: ${movie?.title}`}</Text>
-            <Text className="text-base">{`Movie Page: ${
+          <View className="gap-4 text-slate-900 dark:text-white">
+            <Text className="max-w-[240px] self-center text-center text-slate-900 dark:text-white text-3xl font-medium">{`Movie Page: ${movie?.title}`}</Text>
+            <Text className="text-base  text-slate-900 dark:text-white">{`Movie Page: ${
               movie?.overview ?? 'N/A'
             }`}</Text>
           </View>
         </View>
       </ScrollView>
+      <StatusBar style="auto" />
     </SafeAreaView>
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Stack, Tabs } from 'expo-router';
+import { Tabs } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
-import { View, Text } from 'react-native';
+import { View, Text, useColorScheme } from 'react-native';
 
 type TabIconProps = {
   icon: keyof typeof MaterialIcons.glyphMap;
@@ -21,11 +21,16 @@ const TabIcon = ({ icon, color, name }: TabIconProps) => {
 };
 
 export default function TabsLayout() {
+  const colorScheme = useColorScheme();
+
   return (
     <Tabs
       screenOptions={{
         tabBarShowLabel: false,
-        tabBarActiveTintColor: '#1f2937',
+        tabBarActiveTintColor: colorScheme === 'light' ? '#1f2937' : 'white',
+        tabBarStyle: {
+          backgroundColor: colorScheme === 'light' ? 'white' : '#1f2937',
+        },
       }}>
       <Tabs.Screen
         name="index"

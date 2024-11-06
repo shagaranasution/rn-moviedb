@@ -39,7 +39,7 @@ export default function Search() {
   }
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-white dark:bg-slate-900">
       {discoveries && (
         <FlatList
           data={discoveries}
@@ -56,7 +56,7 @@ export default function Search() {
           scrollEventThrottle={16}
           ItemSeparatorComponent={() => <View className="h-2" />}
           contentContainerStyle={{
-            paddingHorizontal: 8,
+            padding: 8,
           }}
         />
       )}

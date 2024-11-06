@@ -2,20 +2,19 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
 
-export default function RootLayout() {
+export default function ExploreLayout() {
   return (
     <View className="flex-1">
       <Stack>
         <Stack.Screen
-          name="(tabs)"
+          name="index"
           options={{
             headerShown: false,
           }}
         />
         <Stack.Screen
-          name="movie/[id]"
+          name="search"
           options={{
-            presentation: 'fullScreenModal',
             headerShown: false,
           }}
         />

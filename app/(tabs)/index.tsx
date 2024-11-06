@@ -8,32 +8,22 @@ import {
   TouchableOpacity,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  useColorScheme as useColorSchemeRN,
 } from 'react-native';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Link, Stack, router } from 'expo-router';
+import { Link } from 'expo-router';
 import useFetchHomeScreenMovies, {
   Category,
 } from '@/hooks/useFetchHomeScreenMovies';
 import { Movie } from '@/types/movie';
 import { LinearGradient } from 'expo-linear-gradient';
-import { BlurView } from 'expo-blur';
-import Animated, {
-  useSharedValue,
-  withTiming,
-  useAnimatedStyle,
-  Easing,
-  withSpring,
-} from 'react-native-reanimated';
+import { useSharedValue, withTiming } from 'react-native-reanimated';
 import { StatusBar } from 'expo-status-bar';
 import { MaterialIcons } from '@expo/vector-icons';
 import NavigationHeader from '@/components/navigation/NavigationHeader';
 
 export default function HomeScreen() {
   const { data, loading, error, refetch } = useFetchHomeScreenMovies();
-  const insets = useSafeAreaInsets();
-
-  const [contentOffsetY, setContentOffsetY] = useState(0);
   const headerTopPosition = useSharedValue(-120);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -66,11 +56,11 @@ export default function HomeScreen() {
   }
 
   return (
-    <View className="flex-1">
-      <StatusBar style="dark" />
+    <View className="flex-1 bg-white dark:bg-slate-800">
+      <StatusBar style="auto" />
       <NavigationHeader headerTopPosition={headerTopPosition}>
-        <Text className="flex-1 text-center text-black font-medium text-xl">
-          Netplix
+        <Text className="flex-1 text-center  font-medium text-xl text-slate-900 dark:text-white">
+          The Movie
         </Text>
       </NavigationHeader>
       {data && (
@@ -100,7 +90,7 @@ function HomeCategoryList({ category }: { category: Category }) {
   return (
     <View className="gap-2">
       <View className="px-4">
-        <Text className="text-base, text-slate-800, font-medium">
+        <Text className="text-base text-slate-900 dark:text-white font-medium">
           {category.title.replace('_', ' ').toUpperCase()}
         </Text>
       </View>
@@ -125,13 +115,15 @@ function HomeCategoryItem({ movie }: { movie: Movie }) {
       <TouchableOpacity activeOpacity={0.7}>
         <View className="w-[120px]">
           <Image
-            className="w-[100%] h-[160px] bg-gray-800 rounded-md"
+            className="w-[100%] h-[160px] bg-slate-500 dark:bg-slate\ rounded-md"
             resizeMode="cover"
             source={{
               uri: `https://image.tmdb.org/t/p/w500${movie.poster_path ?? ''}`,
             }}
           />
-          <Text className="text-sm text-slate-800" numberOfLines={2}>
+          <Text
+            className="text-sm text-slate-900 dark:text-white"
+            numberOfLines={2}>
             {movie.title}
           </Text>
         </View>

@@ -9,6 +9,7 @@ import {
   useWindowDimensions,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  useColorScheme,
 } from 'react-native';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
@@ -24,6 +25,7 @@ import { useSharedValue, withTiming } from 'react-native-reanimated';
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function ExploreScreen() {
+  const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
   const {
     data: discoveries,
@@ -61,7 +63,7 @@ export default function ExploreScreen() {
 
   const handleSearchPress = () => {
     router.push({
-      pathname: 'search',
+      pathname: '/explore/search',
     });
   };
 
@@ -82,14 +84,19 @@ export default function ExploreScreen() {
   }
 
   return (
-    // <SafeAreaView className="flex-1">
-    <View className="flex-1">
-      <StatusBar style="dark" />
+    <View className="flex-1 bg-white dark:bg-slate-900">
+      <StatusBar style="auto" />
       <NavigationHeader headerTopPosition={headerTopPosition}>
         <View className="w-7" />
-        <Text className="text-black font-medium text-xl">Explore</Text>
+        <Text className="text-slate-900 dark:text-white font-medium text-xl">
+          Explore
+        </Text>
         <TouchableOpacity activeOpacity={0.6} onPress={handleSearchPress}>
-          <MaterialIcons name="search" size={28} />
+          <MaterialIcons
+            name="search"
+            size={28}
+            color={colorScheme === 'light' ? '#0f172a' : 'white'}
+          />
         </TouchableOpacity>
       </NavigationHeader>
       {discoveries && (
@@ -116,7 +123,6 @@ export default function ExploreScreen() {
         />
       )}
     </View>
-    // </SafeAreaView>
   );
 }
 

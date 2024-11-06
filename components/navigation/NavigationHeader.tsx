@@ -1,6 +1,6 @@
 import { BlurView } from 'expo-blur';
 import { useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, useColorScheme } from 'react-native';
 import Animated, {
   useSharedValue,
   SharedValue,
@@ -34,12 +34,18 @@ export default function NavigationHeader({
 }
 
 function BaseNavigationHeader({ children }: { children: React.ReactNode }) {
+  const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
 
   return (
-    <BlurView tint="systemMaterialLight">
+    <BlurView
+      tint={
+        colorScheme === 'light'
+          ? 'systemMaterialLight'
+          : 'systemChromeMaterialDark'
+      }>
       <View
-        className="flex-row justify-between pb-3 px-4 items-center gap-2"
+        className="flex-row justify-between pb-3 px-4 items-center gap-2 bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
         style={{ paddingTop: insets.top }}>
         {children}
       </View>

@@ -19,7 +19,6 @@ export default function SearchResult() {
   }
 
   const { data: movies, loading, error, refetch } = useFetchSearchMovies(title);
-  console.log('test: ', movies, loading, error);
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center">
@@ -37,7 +36,7 @@ export default function SearchResult() {
   }
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-white dark:bg-slate-900">
       {movies && (
         <FlatList
           data={movies}
