@@ -35,7 +35,7 @@ export default function useFetchMovieDetail(movieId: string) {
   const fetchYoutubeData = async (query: string) => {
     try {
       const data = await fetchYutubeVideoData(query);
-      const url = `https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=1&mute=0`;
+      const url = `https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=1&mute=0&=fullscreen=1`;
       setMovieYoutubeTrailer(url);
     } catch {
       return;
