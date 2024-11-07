@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   NativeSyntheticEvent,
   NativeScrollEvent,
-  useColorScheme as useColorSchemeRN,
 } from 'react-native';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'expo-router';
@@ -187,7 +186,7 @@ const HeaderComponent = React.memo(function HeaderComponent({
 });
 
 function HeaderItem({ movie }: { movie: Movie }) {
-  const { title, overview, backdrop_path } = movie;
+  const { id: movieId, title, overview, backdrop_path } = movie;
   const trimmedOverview = useMemo(() => {
     if (overview.length > 150) {
       return overview.substring(0, 150 - 3) + '...';
@@ -197,29 +196,35 @@ function HeaderItem({ movie }: { movie: Movie }) {
   }, [overview]);
 
   return (
-    <View className="w-[100vw] h-[320px] relative">
-      <Image
-        source={{
-          uri: `https://image.tmdb.org/t/p/w500${backdrop_path ?? ''}`,
-        }}
-        resizeMode="cover"
-        className="w-[100%] h-[100%] bg-gray-800"
-      />
-      <LinearGradient
-        colors={['transparent', 'rgba(0,0,0,0.8)']}
-        className="absolute w-[100%] h-[100%]">
-        <View className="flex-1 relative justify-end items-center p-4 gap-1">
-          <View className="absolute top-0 bottom-0 left-0 right-0 justify-center items-center">
-            <MaterialIcons name="play-circle-outline" size={52} color="white" />
+    <Link href={{ pathname: '/movie/[id]', params: { id: movieId } }}>
+      <View className="w-[100vw] h-[320px] relative">
+        <Image
+          source={{
+            uri: `https://image.tmdb.org/t/p/w500${backdrop_path ?? ''}`,
+          }}
+          resizeMode="cover"
+          className="w-[100%] h-[100%] bg-gray-800"
+        />
+        <LinearGradient
+          colors={['transparent', 'rgba(0,0,0,0.8)']}
+          className="absolute w-[100%] h-[100%]">
+          <View className="flex-1 relative justify-end items-center p-4 gap-1">
+            <View className="absolute top-0 bottom-0 left-0 right-0 justify-center items-center">
+              <MaterialIcons
+                name="play-circle-outline"
+                size={52}
+                color="white"
+              />
+            </View>
+            <Text
+              className="w-[100%] text-white text-lg font-medium"
+              numberOfLines={2}>
+              {title}
+            </Text>
+            <Text className="w-[100%] text-slate-300">{trimmedOverview}</Text>
           </View>
-          <Text
-            className="w-[100%] text-white text-lg font-medium"
-            numberOfLines={2}>
-            {title}
-          </Text>
-          <Text className="w-[100%] text-slate-300">{trimmedOverview}</Text>
-        </View>
-      </LinearGradient>
-    </View>
+        </LinearGradient>
+      </View>
+    </Link>
   );
 }

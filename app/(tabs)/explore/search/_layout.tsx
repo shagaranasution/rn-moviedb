@@ -35,7 +35,7 @@ export default function SearchLayout() {
   };
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-white dark:bg-slate-900">
       <NavigationHeader>
         <TouchableOpacity activeOpacity={0.6} onPress={handleNavigateBack}>
           <MaterialIcons
