@@ -27,7 +27,7 @@ Ensure you have [Node.js](https://nodejs.org/) and [Expo CLI](https://docs.expo.
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/yourusername/rn-moviedb.git
+   git clone https://github.com/shagaranasution/rn-moviedb.git
    cd rn-moviedb
 
    ```
