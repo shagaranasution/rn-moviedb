@@ -1,50 +1,75 @@
-# Welcome to your Expo app 👋
+# The Movie 🎬
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+The Movie is a mobile application built with Expo, React Native, and React that allows users to explore movies from The Movie Database (TMDb) API, view detailed movie descriptions, and watch trailers sourced from YouTube. This app also includes a search functionality for discovering movies by title.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Browse Movies by Category**: See lists of popular, top-rated, and upcoming movies.
+- **View Movie Details**: Access detailed descriptions for each movie.
+- **Watch Trailers**: Stream trailers using the YouTube Data API.
+- **Search Movies**: Quickly find specific movies by title.
+
+## Tech Stack
+
+- **Frontend**: React Native 0.74.3 with Expo SDK 51.0.22
+- **Backend APIs**:
+  - [The Movie Database (TMDb)](https://developers.themoviedb.org/3) for movie data.
+  - [YouTube Data API](https://developers.google.com/youtube/v3) for trailers.
+
+## Installation and Setup
+
+### Prerequisites
+
+Ensure you have [Node.js](https://nodejs.org/) and [Expo CLI](https://docs.expo.dev/get-started/installation/) installed.
+
+### Getting Started
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/yourusername/rn-moviedb.git
+   cd rn-moviedb
+
+   ```
+
+2. **Install dependencies**:
 
    ```bash
    npm install
+
    ```
 
-2. Start the app
-
-   ```bash
-    npx expo start
+3. **Environment Variables**: Set up a .env file in the root directory to store your API keys. This file is not included in version control for security reasons.
+   ```plaintext
+   TMDB_API_KEY=your_tmdb_api_key
+   YOUTUBE_DATA_CREDENTIAL=your_youtube_api_key
    ```
 
-In the output, you'll find options to open the app in a
+Replace your_tmdb_api_key and your_youtube_api_key with your own API keys. You can obtain them from [TMDb](https://developers.themoviedb.org/3) and [YouTube](https://developers.google.com/youtube/v3) respectively.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+If you need access to demo the app, please contact me.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Configuration
 
-## Get a fresh project
+### `package.json` Overview
 
-When you're ready, run:
+The primary dependencies include:
 
-```bash
-npm run reset-project
-```
+- **Expo Modules**: `expo`, `expo-router`, `expo-font, @expo/vector-icons`, etc.
+- **Navigation**: `@react-navigation/native`
+- **UI**: `nativewind` (Tailwind CSS for React Native)
+- **API and Environment Management**: `react-native-dotenv` for managing sensitive API keys.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### `app.json` Overview
 
-## Learn more
+This file includes app settings for Expo:
 
-To learn more about developing your project with Expo, look at the following resources:
+- **Icons and Splash Screens**: Located under the `assets/images` folder.
+- **Automatic UI Style**: Adjusts to user preference (dark/light mode).
+- **Platform Support**: Supports Android, iOS, and web.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Scripts
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- **Start**: `npm start` to run Expo in development mode.
+- **Testing**: `npm test` to run Jest tests.
+- **Linting**: `npm run lint` to check for code style issues.
