@@ -66,7 +66,7 @@ This file includes app settings for Expo:
 
 - **Icons and Splash Screens**: Located under the `assets/images` folder.
 - **Automatic UI Style**: Adjusts to user preference (dark/light mode).
-- **Platform Support**: Supports Android, iOS, and web.
+- **Platform Support**: Supports Android, iOS.
 
 ## Scripts
 
@@ -76,4 +76,4 @@ This file includes app settings for Expo:
 
 ## App Preview
 
-![The Movie App Preview](./screenshots/app-preview.gif)
+![The Movie App Preview](./screenshots/preview-record.gif)
