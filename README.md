@@ -73,3 +73,7 @@ This file includes app settings for Expo:
 - **Start**: `npm start` to run Expo in development mode.
 - **Testing**: `npm test` to run Jest tests.
 - **Linting**: `npm run lint` to check for code style issues.
+
+## App Preview
+
+![The Movie App Preview](./screenshots/app-preview.gif)
