@@ -1,24 +1,20 @@
+// @ts-ignore
+import { TMDB_API_KEY, YOUTUBE_DATA_CREDENTIAL } from '@env';
 import { NetworkError } from '@/types/errors';
 import { MovieTag, Movie, MoviesResponse } from '@/types/movie';
 import { GetYoutubeSearchResponse } from '@/types/youtubedata';
 
-//'YOUTUBE_DATA_CREDENTIAL = AIzaSyArBxINp3fAz-oRMShVv_ONPucUBfSp5ic';
-//"https://youtube.googleapis.com/youtube/v3"
-
-const API_KEY =
-  'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOTkyMzg3NDJhMTViYjQxN2MzYjJjYjEyNzgzNzU1OCIsIm5iZiI6MTcyMDg0Nzg4Mi40NzcxMjIsInN1YiI6IjVmMzI1MDMwY2RmMmU2MDAzNzI0NTk0YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oHzG7n9JA54uCceITDhvRbSj5_P1nCoNicuix_qiEhM';
-const BASE_URL = 'https://api.themoviedb.org/3';
-const YOUTUBE_DATA_URL = 'https://youtube.googleapis.com/youtube/v3';
-const YOUTUBE_DATA_CREDENTIAL = 'AIzaSyArBxINp3fAz-oRMShVv_ONPucUBfSp5ic';
+const TMDB_API_BASE_URL = 'https://api.themoviedb.org/3';
+const YOUTUBE_DATA_BASE_URL = 'https://youtube.googleapis.com/youtube/v3';
 
 const headers = {
   'Content-Type': 'application/json',
-  Authorization: `Bearer ${API_KEY}`,
+  Authorization: `Bearer ${TMDB_API_KEY}`,
 };
 
 export async function fetchMovies(path: MovieTag): Promise<Movie[]> {
   try {
-    const response = await fetch(`${BASE_URL}/movie/${path}`, {
+    const response = await fetch(`${TMDB_API_BASE_URL}/movie/${path}`, {
       method: 'GET',
       headers: headers,
     });
@@ -46,7 +42,7 @@ export async function fetchMovies(path: MovieTag): Promise<Movie[]> {
 
 export async function fetchDiscoverMovies(): Promise<Movie[]> {
   try {
-    const response = await fetch(`${BASE_URL}/discover/movie`, {
+    const response = await fetch(`${TMDB_API_BASE_URL}/discover/movie`, {
       method: 'GET',
       headers: headers,
     });
@@ -77,7 +73,7 @@ export async function fetchDiscoverMovies(): Promise<Movie[]> {
 export async function searchMovies(query: string): Promise<Movie[]> {
   try {
     const response = await fetch(
-      `${BASE_URL}/search/movie?query=${encodeURIComponent(query)}`,
+      `${TMDB_API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`,
       {
         method: 'GET',
         headers: headers,
@@ -98,7 +94,7 @@ export async function searchMovies(query: string): Promise<Movie[]> {
 
 export async function fetchMovieDetail(movieId: string): Promise<Movie> {
   try {
-    const response = await fetch(`${BASE_URL}/movie/${movieId}`, {
+    const response = await fetch(`${TMDB_API_BASE_URL}/movie/${movieId}`, {
       headers: headers,
     });
 
@@ -126,9 +122,8 @@ export async function fetchYutubeVideoData(
   query: string
 ): Promise<GetYoutubeSearchResponse> {
   try {
-    // https://youtube.googleapis.com/youtube/v3/search?q=&key=
     const response = await fetch(
-      `${YOUTUBE_DATA_URL}/search?key=${YOUTUBE_DATA_CREDENTIAL}&q=${query}`
+      `${YOUTUBE_DATA_BASE_URL}/search?key=${YOUTUBE_DATA_CREDENTIAL}&q=${query}`
     );
 
     if (!response.ok) {
